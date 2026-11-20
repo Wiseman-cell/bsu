@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: bsu
+      POSTGRES_PASSWORD: bsu_password
+      POSTGRES_DB: bsu_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://bsu:bsu_password@db:5432/bsu_db?schema=public
+      NEXTAUTH_URL: http://localhost:3000
+      NEXTAUTH_SECRET: local-dev-secret-change-me
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
