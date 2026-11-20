@@ -28,7 +28,8 @@ export async function middleware(request: NextRequest) {
   }
 
   // Protect portal routes — require any authenticated user
-  if (pathname.startsWith("/portal")) {
+  // Exclude the sign-in page itself to avoid redirect loops
+  if (pathname.startsWith("/portal") && pathname !== "/portal/student") {
     const token = await getToken({
       req: request,
       secret: process.env.NEXTAUTH_SECRET,
