@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
 interface ContactPayload {
   name: string;
@@ -78,7 +79,16 @@ export async function POST(request: NextRequest) {
     }
 
     const payload = validation.payload;
-    console.log("Contact form submission:", payload);
+
+    // Persist to database
+    await prisma.contactSubmission.create({
+      data: {
+        name: payload.name,
+        email: payload.email,
+        subject: payload.subject,
+        message: payload.message,
+      },
+    });
 
     return NextResponse.json(
       {

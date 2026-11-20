@@ -173,6 +173,16 @@ model TenderSubmission {
   receivedAt      DateTime @default(now())
 }
 
+model ContactSubmission {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  subject   String
+  message   String   @db.Text
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
 // ─── Authentication ───
 
 model User {
