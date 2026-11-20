@@ -19,22 +19,13 @@ const nextConfig: NextConfig = {
             key: "Referrer-Policy",
             value: "strict-origin-when-cross-origin",
           },
-          {
-            key: "X-XSS-Protection",
-            value: "1; mode=block",
-          },
         ],
       },
     ];
   },
-  // Image optimization domains (add any external image hosts here)
+  // Image optimization — add specific external hosts here when needed
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**",
-      },
-    ],
+    remotePatterns: [],
     formats: ["image/avif", "image/webp"],
   },
   // Compression

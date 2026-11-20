@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 interface TenderSubmissionPayload {
   refNumber: string;
@@ -76,6 +77,14 @@ function validatePayload(data: unknown): {
 }
 
 export async function POST(request: NextRequest) {
+  const rate = checkRateLimit(request);
+  if (!rate.allowed) {
+    return NextResponse.json(
+      { success: false, message: "Too many requests. Please try again later." },
+      { status: 429 }
+    );
+  }
+
   try {
     let body: unknown;
     try {
