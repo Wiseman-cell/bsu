@@ -40,8 +40,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Project documentation — keep only README.md, AGENTS.md, CLAUDE.md
-# Exclude specs, implementation plans, progress reports, and summaries
+# Project documentation — keep only README.md
+# Exclude specs, implementation plans, progress reports, summaries, and agent files
 *Specification*.md
 *specification*.md
 *Implementation*.md
@@ -52,3 +52,5 @@ next-env.d.ts
 *progress*.md
 *Plan*.md
 *plan*.md
+AGENTS.md
+CLAUDE.md
