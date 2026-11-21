@@ -12,18 +12,21 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Protect admin API routes
-  if (pathname.startsWith("/api/admin")) {
+  // Protect admin API routes and admin pages
+  if (pathname.startsWith("/api/admin") || pathname.startsWith("/admin")) {
     const token = await getToken({
       req: request,
       secret: process.env.NEXTAUTH_SECRET,
     });
 
     if (!token || token.role !== "admin") {
-      return NextResponse.json(
-        { error: "Unauthorized. Admin access required." },
-        { status: 403 }
-      );
+      if (pathname.startsWith("/api/admin")) {
+        return NextResponse.json(
+          { error: "Unauthorized. Admin access required." },
+          { status: 403 }
+        );
+      }
+      return NextResponse.redirect(new URL("/portal/student", request.url));
     }
   }
 
@@ -46,5 +49,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/api/admin/:path*", "/portal/:path*"],
+  matcher: ["/api/admin/:path*", "/admin/:path*", "/portal/:path*"],
 };
